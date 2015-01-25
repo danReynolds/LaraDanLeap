@@ -78,19 +78,25 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 		var frame = e.detail;
     var fingerTypeMap = ["Thumb", "Index finger", "Middle finger", "Ring finger", "Pinky finger"];
 
+
 		for (var i = 0; i < frame.pointables.length; i++) {
       var pointable = frame.pointables[i];
 			if (fingerTypeMap[pointable.type] === "Index finger") {
 				if (pointable.extended) {
 					this.moveForward = true;
+					this.mouseX = pointable.direction[0] * 1 / 0.9 * window.innerWidth;
 				}
 				else {
 					this.moveForward = false;
+					this.mouseX = frame.hands[0].direction[0] * 1 / 0.9 * window.innerWidth;
 				}
 			}
 			else if (pointable.extended) {
 				this.moveForward = false;
 			}
+		}
+		if (frame.hands.length == 0) {
+			this.mouseX = 0;
 		}
 	}
 
