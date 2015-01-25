@@ -80,7 +80,6 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 		for (var i = 0; i < frame.pointables.length; i++) {
       var pointable = frame.pointables[i];
-
 			if (fingerTypeMap[pointable.type] === "Index finger") {
 				if (pointable.extended) {
 					this.moveForward = true;
@@ -88,6 +87,9 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 				else {
 					this.moveForward = false;
 				}
+			}
+			else if (pointable.extended) {
+				this.moveForward = false;
 			}
 		}
 	}
