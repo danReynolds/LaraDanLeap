@@ -41,20 +41,28 @@
 		<div id="container"><br /><br /><br /><br /><br />Generating world...</div>
 		<div id="info"><a href="http://threejs.org" target="_blank">three.js</a> - <a href="http://www.minecraft.net/" target="_blank">minecraft</a> demo. featuring <a href="http://painterlypack.net/" target="_blank">painterly pack</a><br />(left click: forward, right click: backward)</div>
 
-		<script src="three.min.js"></script>
+		<script src="../build/three.min.js"></script>
 
-		<script src="FirstPersonControls.js"></script>
+		<script src="js/controls/FirstPersonControls.js"></script>
 
-		<script src="ImprovedNoise.js"></script>
+		<script src="js/ImprovedNoise.js"></script>
+		<script src="js/Detector.js"></script>
+		<script src="js/libs/stats.min.js"></script>
 
-
-		<script src="TypedGeometry.js"></script>
-		<script src="IndexedTypedGeometry.js"></script>
-		<script src="PlaneTypedGeometry.js"></script>
+		<script src="js/wip/TypedGeometry.js"></script>
+		<script src="js/wip/IndexedTypedGeometry.js"></script>
+		<script src="js/wip/PlaneTypedGeometry.js"></script>
 
 		<script>
 
-			var container;
+			if ( ! Detector.webgl ) {
+
+				Detector.addGetWebGLMessage();
+				document.getElementById( 'container' ).innerHTML = "";
+
+			}
+
+			var container, stats;
 
 			var camera, controls, scene, renderer;
 
@@ -170,7 +178,7 @@
 
 				geometry.computeBoundingSphere();
 
-				var texture = THREE.ImageUtils.loadTexture( 'atlas.png' );
+				var texture = THREE.ImageUtils.loadTexture( 'textures/minecraft/atlas.png' );
 				texture.magFilter = THREE.NearestFilter;
 				texture.minFilter = THREE.LinearMipMapLinearFilter;
 
@@ -192,6 +200,11 @@
 				container.innerHTML = "";
 
 				container.appendChild( renderer.domElement );
+
+				stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				container.appendChild( stats.domElement );
 
 				//
 
@@ -248,6 +261,7 @@
 				requestAnimationFrame( animate );
 
 				render();
+				stats.update();
 
 			}
 
